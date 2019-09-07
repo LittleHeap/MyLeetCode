@@ -1,10 +1,11 @@
-import copy
+s = set()
 
-a = [1, 2, 3]
-b = a.copy()
-a.append(4)
-print(b)
-print(a)
-b.append(8)
-print(b)
-print(a)
+s.add(1)
+s.add(2)
+s.add(3)
+s.add(4)
+s.add(5)
+s.add(6)
+
+
+s.remove(4)
