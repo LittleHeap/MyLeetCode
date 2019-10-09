@@ -1,26 +1,26 @@
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        if not nums:
-            return -1
-        l = 0
-        r = len(nums) - 1
-        mid = (l + r) // 2
-        while l <= r:
-            mid = (l + r) // 2
-            if nums[mid] == target:
-                return mid
+
+        n = len(nums)
+
+        def bi(l, r):
+            if l > r or l >= n or r < 0:
+                return -1
+            index = (l + r + 1) // 2
+            if nums[index] == target:
+                return index
+            elif l == r and target != nums[l]:
+                return -1
             else:
-                if nums[l] <= nums[mid]:
-                    if target >= nums[l] and target <= nums[mid]:
-                        r = mid - 1
+                if nums[l] <= nums[index - 1]:
+                    if target <= nums[index - 1] and target >= nums[l]:
+                        return bi(l, index - 1)
                     else:
-                        l = mid + 1
-                elif nums[l] > nums[mid]:
-                    if target >= nums[mid] and target <= nums[r]:
-                        l = mid + 1
+                        return bi(index + 1, r)
+                else:
+                    if target >= nums[index + 1] and target <= nums[r]:
+                        return bi(index + 1, r)
                     else:
-                        r = mid - 1
-        if nums[mid] == target:
-            return mid
-        if l >= r:
-            return -1
+                        return bi(l, index - 1)
+
+        return bi(0, len(nums) - 1)

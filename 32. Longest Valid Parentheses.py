@@ -1,41 +1,44 @@
-s = ")()())"
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
 
-left = 0
-right = len(s) - 1
-while s[left] == ')':
-    left += 1
-while s[right] == '(':
-    right -= 1
-s = s[left: right + 1]
-print(s)
+        stack = []
 
-ans = 0
-l = 0
-r = 0
-first = 0
-cursor = 0
-n = len(s)
-while 1:
-    if cursor == n:
-        if first == n - 1 or first == n:
-            break
-        else:
-            first += 1
-            cursor = first
-            l = 0
-            r = 0
-    print([first, cursor])
-    if s[cursor] == '(':
-        l += 1
-        cursor += 1
-    else:
-        r += 1
-        cursor += 1
-    if r > l:
-        first = cursor
-        l = 0
-        r = 0
-    elif r == l:
-        ans = max(ans, cursor - first)
+        s = list(s)
+        while s and s[0] == ')':
+            s.pop(0)
 
-print(ans)
+        if not s:
+            return 0
+
+        for i in range(len(s)):
+            if s[i] == '(':
+                stack.append('(')
+            else:
+                cur = []
+                while stack and stack[-1] == 2:
+                    cur.append(2)
+                    stack.pop()
+                if stack:
+                    last = stack.pop()
+                else:
+                    stack = cur
+                    stack.append(')')
+                    continue
+                if last == '(':
+                    stack.append(2)
+                    stack.extend(cur)
+                else:
+                    stack.append(')')
+                    stack.extend(cur)
+                    stack.append(')')
+
+        res = 0
+        cur = 0
+        for i in range(len(stack)):
+            if stack[i] == ')' or stack[i] == '(':
+                cur = 0
+            else:
+                cur += 2
+                res = max(res, cur)
+
+        return res
