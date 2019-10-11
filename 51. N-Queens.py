@@ -1,8 +1,8 @@
 import copy
 
-
 class Solution:
-    def totalNQueens(self, n: int) -> int:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+
         col = set()
         pie = set()
         na = set()
@@ -27,4 +27,10 @@ class Solution:
                     deep(i + 1, newcol, newpie, newna, newcur)
 
         deep(0, col, pie, na, cur)
-        return len(res)
+        ans = []
+        for ele in res:
+            cur = []
+            for i in range(n):
+                cur.append(''.join(ele[i]))
+            ans.append(cur)
+        return ans

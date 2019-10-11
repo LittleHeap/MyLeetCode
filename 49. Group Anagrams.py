@@ -3,16 +3,19 @@ class Solution:
 
         d = {}
 
-        for ele in strs:
-            l = list(ele)
-            l.sort()
-            l = ''.join(l)
-            if l not in d:
-                d[l] = [ele]
+        for i in range(len(strs)):
+            s = strs[i]
+            s = list(s)
+            s.sort()
+            if tuple(s) in d:
+                d[tuple(s)].append(i)
             else:
-                d[l].append(ele)
+                d[tuple(s)] = [i]
 
         res = []
-        for ele in d.items():
-            res.append(ele[1])
+        for ele in d:
+            cur = []
+            for index in d[ele]:
+                cur.append(strs[index])
+            res.append(cur)
         return res

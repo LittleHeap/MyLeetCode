@@ -1,22 +1,27 @@
-nums = [1, 1, 2]
-s = set()
-n = len(nums)
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
 
+        nums.sort()
+        res = []
 
-def deep(cur, k, have):
-    if k == n:
-        s.add(tuple(cur))
-        return
-    for i in range(len(have)):
-        newcur = cur.copy()
-        newhave = have.copy()
-        newcur.append(have[i])
-        newhave.pop(i)
-        deep(newcur, k + 1, newhave)
+        def deep(cur, l):
+            if not l:
+                res.append(cur)
+                return
+            for i in range(len(l)):
+                newcur = cur.copy()
+                newl = l.copy()
+                if i == 0:
+                    newcur.append(newl[i])
+                    newl.pop(i)
+                    deep(newcur, newl)
+                else:
+                    if l[i] == l[i - 1]:
+                        continue
+                    else:
+                        newcur.append(newl[i])
+                        newl.pop(i)
+                        deep(newcur, newl)
 
-
-deep([], 0, nums)
-res = []
-for ele in s:
-    res.append(list(ele))
-print(res)
+        deep([], nums)
+        return res
