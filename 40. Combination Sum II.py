@@ -1,40 +1,40 @@
 import copy
 
-candidates = [2]
-target = 1
+candidates = [2, 5, 2, 1, 2]
+target = 5
 
 candidates.sort()
-
-while 1 and len(candidates) > 0:
-    if candidates[-1] > target:
-        candidates.pop()
-    else:
+for i in range(len(candidates)):
+    if candidates[i] > target:
+        candidates = candidates[: i]
         break
 
-res = set()
+dp = [[[], []] for _ in range(target + 1)]
+have = set()
+for ele in set(candidates):
+    have.add(ele)
+    dp[ele][0].append([ele])
+    can = candidates.copy()
+    can.remove(ele)
+    dp[ele][1].append(set(can))
 
-
-def deep(cur, have, remain):
-    for i in range(len(have)):
-        remain -= have[i]
-        if remain < 0:
-            return
-        newcur = copy.deepcopy(cur)
-        newcur.append(have[i])
-        newhave = copy.deepcopy(have)
-        newhave = newhave[i + 1:]
-        if remain == 0:
-            newcur.sort()
-            res.add(tuple(newcur))
-            return
-        deep(newcur, newhave, remain)
-        remain += have[i]
-
-
-deep([], candidates, target)
-
-ans = []
-for ele in res:
-    ans.append(list(ele))
-
-print(ans)
+hold = set(candidates)
+for i in range(1, target + 1):
+    for h in hold:
+        if h > i:
+            break
+        if (i - h) in have:
+            for index in range(len(dp[i - h][0])):
+                if h in dp[i - h][1][index]:
+                    newl = dp[i - h][0][index].copy()
+                    newl.append(h)
+                    news = candidates.copy()
+                    newl.sort()
+                    if newl not in dp[i][0]:
+                        for p in newl:
+                            news.remove(p)
+                        dp[i][0].append(newl)
+                        dp[i][1].append(set(news))
+                        have.add(i)
+print(dp)
+print(dp[-1][0])
