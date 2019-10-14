@@ -1,24 +1,22 @@
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
-        n = len(nums)
 
-        l = set()
-        l.add(0)
-        i = 0
         far = 0
-        while l:
-            if n - 1 in l:
-                return True
-            newl = set()
-            for index in list(l):
-                if index + nums[index] <= far:
-                    l.remove(index)
-                    continue
-                for k in range(nums[index] + 1):
-                    if index + k < n:
-                        newl.add(index + k)
-                        far = max(far, index + k)
-            l = newl
-            i += 1
+        n = len(nums)
+        if n <= 1:
+            return True
 
-        return False
+        dp = [0 for _ in range(n)]
+
+        for i in range(len(nums)):
+            if far < i:
+                return False
+            if nums[i] + i <= far:
+                continue
+            for k in range(far + 1, i + nums[i] + 1):
+                if k >= n:
+                    break
+                dp[k] = dp[i] + 1
+            far = i + nums[i]
+            if dp[-1] > 0:
+                return True
