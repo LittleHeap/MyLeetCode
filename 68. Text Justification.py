@@ -1,53 +1,43 @@
 class Solution:
     def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
-        cur = 0
-        curl = []
-        start = 0
-        stop = -1
 
+        w = []
+        c = 0
         res = []
-        for i, ele in enumerate(words):
-            l = len(ele)
-            if cur + l <= maxWidth:
-                cur += l + 1
-                curl.append(l)
-                stop += 1
+        for i in range(len(words)):
+            if c + len(words[i]) + len(w) <= maxWidth:
+                w.append(words[i])
+                c += len(words[i])
             else:
-                if len(curl) == 1:
-                    sp = maxWidth - curl[0]
-                    now = ''
-                    now += words[i - 1]
-                    for t in range(sp):
-                        now += ' '
-                    res.append(now)
+                n = len(w)
+                if n != 1:
+                    space = maxWidth - c
+                    avg = space // (n - 1)
+                    extra = space - avg * (n - 1)
+                    cur = ""
+                    for j in range(n - 1):
+                        cur += w[j]
+                        for _ in range(avg):
+                            cur += ' '
+                        if extra > 0:
+                            cur += ' '
+                            extra -= 1
+                    cur += w[-1]
                 else:
-                    leftsp = maxWidth - sum(curl)
-                    sp = leftsp // (len(curl) - 1)
-                    leftsp = leftsp - sp * (len(curl) - 1)
-                    now = ''
-                    for k in range(start, stop):
-                        now += words[k]
-                        for s in range(sp):
-                            now += ' '
-                        if leftsp > 0:
-                            now += ' '
-                            leftsp -= 1
-                    now += words[stop]
-                    res.append(now)
-                curl = [l]
-                start = i
-                stop = i
-                cur = l + 1
+                    cur = ''
+                    cur += w[0]
+                    for _ in range(maxWidth - len(w[0])):
+                        cur += ' '
+                res.append(cur)
+                w = [words[i]]
+                c = len(words[i])
 
-        leftsp = maxWidth - sum(curl)
-        leftsp -= len(curl)
-        now = ''
-        for ele in words[start:]:
-            now += ele
-            now += ' '
-        for s in range(leftsp):
-            now += ' '
-        if len(now) > maxWidth:
-            now = now[:-1]
-        res.append(now)
-        return (res)
+        cur = ''
+        for i in range(len(w)):
+            cur += w[i] + ' '
+        for _ in range(maxWidth - c - len(w)):
+            cur += ' '
+        cur = cur[:maxWidth]
+
+        res.append(cur)
+        return res

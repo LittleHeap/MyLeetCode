@@ -1,37 +1,45 @@
-class Solution:
-    def addBinary(self, a: str, b: str) -> str:
-        a = list(a)
-        b = list(b)
+a = "1111"
+b = "1111"
 
-        na = len(a)
-        nb = len(b)
+a = list(a)
+b = list(b)
 
+m = len(a)
+n = len(b)
+
+for i in range(m):
+    if a[i] == '1':
+        a[i] = 1
+    else:
+        a[i] = 0
+
+for j in range(n):
+    if b[j] == '1':
+        b[j] = 1
+    else:
+        b[j] = 0
+
+if m > n:
+    for _ in range(m - n):
+        b.insert(0, 0)
+else:
+    for _ in range(n - m):
+        a.insert(0, 0)
+
+flag = 0
+for i in range(max(m, n) - 1, -1 ,-1):
+    a[i] += b[i] + flag
+    if a[i] >= 2:
+        a[i] %= 2
+        flag = 1
+    else:
         flag = 0
 
-        index = -1
+if flag:
+    a.insert(0, 1)
 
-        while -index <= na and -index <= nb:
-            cura = int(a[index])
-            curb = int(b[index])
-            cur = cura + curb + flag
-            flag = cur // 2
-            a[index] = str(cur % 2)
-            index -= 1
+res = ""
+for ele in a:
+    res += str(ele)
 
-        while -index <= na:
-            cura = int(a[index])
-            cur = cura + flag
-            flag = cur // 2
-            a[index] = str(cur % 2)
-            index -= 1
-        while -index <= nb:
-            curb = int(b[index])
-            cur = curb + flag
-            flag = cur // 2
-            a.insert(0, str(cur % 2))
-            index -= 1
-
-        if flag:
-            a.insert(0, '1')
-
-        return ''.join(a)
+print(res)
