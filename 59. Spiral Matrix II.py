@@ -2,50 +2,49 @@ n = 5
 
 res = [[0 for _ in range(n)] for _ in range(n)]
 
-dir = [0, 1, 2, 3]
+dir = 0
 row = set()
-col = set()
-row.add(n)
 row.add(0)
-col.add(n)
+row.add(n)
+col = set()
 col.add(-1)
+col.add(n)
 
-i = 0
-j = 0
-index = 0
-
-for num in range(n ** 2):
-    print(res)
-    print([i, j])
-    print(i)
-    res[i][j] = num + 1
-    if dir[index % 4] == 0:
+i, j = 0, 0
+for k in range(1, n * n + 1):
+    print([i,j])
+    res[i][j] = k
+    if dir == 0:
         j += 1
         if j in col:
             j -= 1
-            col.add(j)
             i += 1
-            index += 1
-    elif dir[index % 4] == 1:
+            dir += 1
+            dir %= 4
+            col.add(j)
+    elif dir == 1:
         i += 1
         if i in row:
             i -= 1
-            row.add(i)
             j -= 1
-            index += 1
-    elif dir[index % 4] == 2:
+            dir += 1
+            dir %= 4
+            row.add(i)
+    elif dir == 2:
         j -= 1
         if j in col:
             j += 1
-            col.add(j)
             i -= 1
-            index += 1
-    elif dir[index % 4] == 3:
+            dir += 1
+            dir %= 4
+            col.add(j)
+    else:
         i -= 1
         if i in row:
             i += 1
-            row.add(i)
             j += 1
-            index += 1
-
+            dir += 1
+            dir %= 4
+            row.add(i)
 print(res)
+

@@ -1,24 +1,36 @@
 import copy
-n = 4
-k = 9
 
-save = {}
-nums = [i + 1 for i in range(n)]
+n = 6
+k = 67
 
-s = 1
-save[0] = 1
-for i in range(n - 1):
-    s = s * (i + 1)
-    save[i + 1] = s
-
-print(save)
-res = []
-
+save = []
+cur = 1
 for i in range(1, n + 1):
-    back = n - i
-    cur = (k - 1) // save.get(back)
-    k -= cur * save.get(back)
-    res.append(str(nums[cur]))
-    nums.remove(nums[cur])
+   cur *= i
+   save.append(cur)
+print(save)
+
+hold = [str(i) for i in range(1, n + 1)]
+print(hold)
+
+index = 0
+res = []
+last = n
+
+for i in range(n):
+    if k == 1:
+        res.extend(hold)
+        break
+    index = 0
+    while save[index] < k:
+        index += 1
+    index -= 1
+    for _ in range(last - index - 2):
+        res.append(hold.pop(0))
+    last = index + 1
+    can = (k - 1) // save[index]
+    res.append(hold[can])
+    k -= can * save[index]
+    hold.pop(can)
 
 print(res)

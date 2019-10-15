@@ -1,40 +1,41 @@
-intervals = [[2,3],[4,6],[5,7],[3,4]]
+intervals = [[1, 4], [0, 1]]
 
 res = []
-for ele in intervals:
+n = 0
+
+for i in range(len(intervals)):
     print(res)
-    print(ele)
-    if len(res) == 0:
-        res.append(ele)
-        continue
-    flag = 0
-    ru = 0
-    for i in range(len(res)):
-        if res[i] == 0:
-            continue
-        if ele[0] <= res[i][1] and ele[0] >= res[i][0]:
-            res[i][1] = max(ele[1], res[i][1])
-            ru = 1
-            break
-        elif ele[1] >= res[i][0] and ele[1] <= res[i][1]:
-            res[i][0] = min(ele[0], res[i][0])
-            ru = 1
-            break
-        elif ele[0] < res[i][0] and ele[1] > res[i][1]:
-            ru = 1
-            if flag:
-                res[i] = 0
-                continue
-            res[i][0] = ele[0]
-            res[i][1] = ele[1]
-            flag = 1
-        elif ele[0] > res[i][0] and ele[1] < res[i][1]:
-            ru = 1
-            break
-    if ru == 0:
-        res.append(ele)
+    if i == 0:
+        res.append(intervals[i][0])
+        res.append(intervals[i][1])
+        n += 2
+    else:
+        l = n
+        while l - 1 >= 0 and res[l - 1] >= intervals[i][0]:
+            l -= 1
+        res.insert(l, intervals[i][0])
+        n += 1
 
+        r = n
+        while r - 1 >= 0 and res[r - 1] > intervals[i][1]:
+            r -= 1
+        res.insert(r, intervals[i][1])
+        n += 1
 
-while 0 in res:
-    res.remove(0)
+        print(res)
+
+        mid = r - l - 1
+        if mid > 0 and mid % 2 == 0:
+            for _ in range(l + 1, r):
+                res.pop(l + 1)
+                n -= 1
+            if l != 0 and r != n - 1:
+                res.pop(l)
+                res.pop(l)
+                n -= 2
+        else:
+            for _ in range(l, r):
+                res.pop(l)
+                n -= 1
+
 print(res)
