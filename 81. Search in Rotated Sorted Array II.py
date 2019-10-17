@@ -1,32 +1,21 @@
 class Solution:
     def search(self, nums: List[int], target: int) -> bool:
 
-        l = len(nums) - 1
-        r = 0
+        if not nums:
+            return False
+        find = [0]
 
-        while r <= l:
+        def deep(l, r):
+            if find[0] == 1:
+                return
             mid = (l + r) // 2
-            rmid = mid
-            lmid = mid
-            while rmid - 1 >= r and nums[rmid] == nums[rmid - 1]:
-                rmid -= 1
-            while lmid + 1 <= l and nums[lmid] == nums[lmid + 1]:
-                lmid += 1
-            if rmid - 1 >= r:
-                rmid -= 1
-            if lmid + 1 <= l:
-                lmid += 1
-            if target == nums[mid] or target == nums[l] or target == nums[r] or target == nums[rmid] or target == nums[
-                lmid]:
-                return True
-            if nums[r] <= nums[rmid]:
-                if target > nums[r] and target < nums[rmid]:
-                    l = rmid - 1
-                else:
-                    r = lmid + 1
+            if nums[mid] == target or nums[l] == target or nums[r] == target:
+                find[0] = 1
+            elif l >= r:
+                return
             else:
-                if target > nums[mid] and target < nums[l]:
-                    r = lmid + 1
-                else:
-                    l = rmid - 1
-        return False
+                deep(l + 1, mid - 1)
+                deep(mid + 1, r - 1)
+
+        deep(0, len(nums) - 1)
+        return find[0] == 1

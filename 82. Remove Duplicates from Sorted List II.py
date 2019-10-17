@@ -6,24 +6,24 @@
 
 class Solution:
     def deleteDuplicates(self, head: ListNode) -> ListNode:
-        if not head:
-            return head
 
-        start = head
-        while (head and head.next) and (head.val == head.next.val):
-            while (head and head.next) and (head.val == head.next.val):
-                head = head.next
-            head = head.next
-            start = head
-        cur = []
-        while head and head.next:
-            if head.val == head.next.val:
-                temp = head.next
-                while (temp and temp.next) and (temp.val == temp.next.val):
-                    temp = temp.next
-                pre.next = temp.next
-                head = temp.next
+        res = head
+        pre = None
+
+        while head:
+            if head.next and head.val == head.next.val:
+                r = head.next
+                while r.next and r.val == r.next.val:
+                    r = r.next
+                if pre == None:
+                    res = r.next
+                    head = r.next
+                else:
+                    head = r.next
+                    pre.next = head
             else:
                 pre = head
                 head = head.next
-        return start
+
+        return res
+

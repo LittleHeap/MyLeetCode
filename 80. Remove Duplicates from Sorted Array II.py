@@ -1,17 +1,22 @@
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
 
-        c = 1
+        pre = 1
+        n = len(nums)
+        if n <= 1:
+            return n
         i = 1
-        while i < len(nums):
+
+        while i < n:
             if nums[i] == nums[i - 1]:
-                c += 1
-                if c == 3:
+                if pre == 1:
+                    pre = 2
+                    i += 1
+                elif pre == 2:
                     nums.pop(i)
-                    c -= 1
-                    i -= 1
+                    n -= 1
             else:
-                c = 1
+                pre = 1
+                i += 1
 
-            i += 1
-
+        return n
