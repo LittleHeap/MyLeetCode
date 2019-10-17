@@ -1,27 +1,22 @@
-matrix = [
-    [1, 3, 5, 7],
-    [10, 11, 16, 20],
-    [23, 30, 34, 50]
-]
-target = 13
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
 
-res = []
+        m = len(matrix)
+        if m == 0:
+            return False
+        n = len(matrix[0])
+        if n == 0:
+            return False
 
-for i in range(len(matrix)):
-    res.extend(matrix[i])
+        s = None
+        for i in range(m):
+            if matrix[i][0] <= target:
+                s = i
 
-l = 0
-r = len(res) - 1
-ans = set()
-
-while l <= r:
-    mid = (l + r) // 2
-    if res[mid] == target:
-        ans.add(True)
-        break
-    elif res[mid] > target:
-        r = mid - 1
-    else:
-        l = mid + 1
-
-print(True in ans)
+        if s is None:
+            return False
+        else:
+            for j in range(n):
+                if matrix[s][j] == target:
+                    return True
+            return False
