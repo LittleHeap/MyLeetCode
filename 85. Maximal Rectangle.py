@@ -7,28 +7,27 @@ matrix = [
 
 m = len(matrix)
 n = len(matrix[0])
-ans = 0
-height = 0
 
-dp = [[0 for _ in range(n)] for _ in range(m)]
+d = [[0 for _ in range(n)] for _ in range(m)]
 
-for i in range(m):
-    for j in range(n):
-        if matrix[i][j] == '1' and i - 1 == -1:
-            dp[i][j] = 1
-        elif matrix[i][j] == '1':
-            dp[i][j] = dp[i - 1][j] + 1
+for j in range(n):
+    cur = 0
+    for i in range(m):
+        if matrix[i][j] == '1':
+            cur += 1
+            d[i][j] = cur
+        else:
+            cur = 0
 
+res = 0
 for i in range(m):
     for j in range(n):
         if matrix[i][j] == '1':
-            height = dp[i][j]
-            ans = max(ans, height)
-            width = 1
-            while j + 1 < n and matrix[i][j + 1] == '1':
-                height = min(height, dp[i][j + 1])
-                width = width + 1
-                ans = max(ans, height * width)
-                j = j + 1
+            k = j + 1
+            h = d[i][j]
+            while k < n and matrix[i][k] == '1':
+                h = min(h, d[i][k])
+                res = max(res, h * (k - j + 1))
+                k += 1
 
-print(ans)
+print(res)

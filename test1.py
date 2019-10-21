@@ -1,18 +1,20 @@
-arr = [3, 2, 1, 2, 7]
+s = '06:34'
 
-t = set(arr)
-c = set()
+s = s.split(':')
+h = list(s[0])
+m = list(s[1])
 
-res = 0
-for num in arr:
-    if num not in c:
-        res += num
-        c.add(num)
+if h[0] == '?':
+    h[0] = '2'
+if h[1] == '?':
+    if int(h[0]) <= 1:
+        h[1] = '9'
     else:
-        cur = num + 1
-        while cur in t:
-            cur += 1
-        res += cur
-        t.add(cur)
+        h[1] = '3'
 
-print(res)
+if m[0] == '?':
+    m[0] = '5'
+if m[1] == '?':
+    m[1] = '9'
+
+print(''.join(h) + ':' + ''.join(m))
