@@ -11,21 +11,20 @@ class Solution:
         if not root:
             return False
 
-        def deep(node):
-            if not node.left and not node.right:
-                return [node.val]
-            l, r = [], []
-            if node.left:
-                l = deep(node.left)
-            if node.right:
-                r = deep(node.right)
-            l.extend(r)
-            for i in range(len(l)):
-                l[i] += node.val
-            return l
+        find = [0]
 
-        res = deep(root)
-        if sum in res:
-            return True
-        else:
-            return False
+        def deep(node, s):
+            if find[0] == 1:
+                return
+            s += node.val
+            if not node.left and not node.right:
+                if s == sum:
+                    find[0] = 1
+                return
+            if node.left:
+                deep(node.left, s)
+            if node.right:
+                deep(node.right, s)
+
+        deep(root, 0)
+        return find[0] == 1

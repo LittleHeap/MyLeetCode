@@ -14,29 +14,21 @@
 class Solution:
     def sortedListToBST(self, head: ListNode) -> TreeNode:
 
-        if not head:
-            return None
-
         res = []
         while head:
             res.append(head.val)
             head = head.next
-        hold = set()
 
-        def deep(l, r):
-            if r - l <= 1:
-                if l >= len(res):
-                    return None
-                if res[l] not in hold:
-                    hold.add(res[l])
-                    return TreeNode(res[l])
-                else:
-                    return None
-            mid = (l + r) // 2
-            node = TreeNode(res[mid])
-            hold.add(res[mid])
-            node.left = deep(l, mid)
-            node.right = deep(mid + 1, r)
+        def deep(l):
+            if not l:
+                return None
+            mid = len(l) // 2
+            node = TreeNode(l[mid])
+            node.left = deep(l[:mid])
+            node.right = deep(l[mid + 1:])
             return node
 
-        return deep(0, len(res))
+        return deep(res)
+
+
+

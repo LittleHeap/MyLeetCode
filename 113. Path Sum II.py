@@ -10,24 +10,21 @@ class Solution:
 
         if not root:
             return []
+
         res = []
 
-        def deep(node, target, cur):
-            if not node:
-                return
-            cur.append(node.val)
+        def deep(node, s, cur):
+            s += node.val
+            newcur = cur.copy()
+            newcur.append(node.val)
             if not node.left and not node.right:
-                if target - node.val == 0:
-                    res.append(cur)
-                    return
-                else:
-                    return
-            newcur = cur.copy()
-            newtarget = target - node.val
-            deep(node.left, newtarget, newcur)
-            newcur = cur.copy()
-            newtarget = target - node.val
-            deep(node.right, newtarget, newcur)
+                if s == sum:
+                    res.append(newcur)
+                return
+            if node.left:
+                deep(node.left, s, newcur)
+            if node.right:
+                deep(node.right, s, newcur)
 
-        deep(root, sum, [])
+        deep(root, 0, [])
         return res

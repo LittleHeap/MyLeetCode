@@ -8,27 +8,20 @@
 class Solution:
     def isBalanced(self, root: TreeNode) -> bool:
 
-        if not root:
-            return True
-
-        ans = set()
+        res = [0]
 
         def deep(node):
-            if False in ans:
+            if res[0] == 1:
+                return
+            if not node:
                 return 0
-            if not node.left and not node.right:
-                return 1
-            l, r = 0, 0
-            if node.left:
-                l = deep(node.left)
-            if node.right:
-                r = deep(node.right)
-            if abs(l - r) >= 2:
-                ans.add(False)
-                return 0
-            else:
-                return max(l, r) + 1
+            left = deep(node.left)
+            right = deep(node.right)
+            if res[0] == 1:
+                return
+            if abs(left - right) >= 2:
+                res[0] = 1
+            return max(left, right) + 1
 
         deep(root)
-
-        return not False in ans
+        return res[0] == 0
