@@ -13,24 +13,21 @@ class Solution:
     def connect(self, root: 'Node') -> 'Node':
 
         if not root:
-            return None
+            return root
 
-        root.next = None
-        cur = [root]
+        l = [root]
 
-        while cur:
-            n = []
-            for node in cur:
-                if node.left:
-                    n.append(node.left)
-                if node.right:
-                    n.append(node.right)
-            if not n:
-                break
-            n.append(None)
-            for i in range(len(n) - 1):
-                n[i].next = n[i + 1]
-            n.pop()
-            cur = n
+        while l:
+            nl = []
+            n = len(l)
+            for i in range(len(l)):
+                if l[i].left:
+                    nl.append(l[i].left)
+                if l[i].right:
+                    nl.append(l[i].right)
+                if i == n - 1:
+                    break
+                l[i].next = l[i + 1]
+            l = nl
 
         return root

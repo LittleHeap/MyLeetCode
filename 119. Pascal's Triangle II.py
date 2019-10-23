@@ -1,12 +1,17 @@
 class Solution:
     def getRow(self, rowIndex: int) -> List[int]:
 
-        res = [[1 for _ in range(i + 1)] for i in range(rowIndex + 1)]
+        if rowIndex == 0:
+            return [1]
+        if rowIndex == 1:
+            return [1, 1]
 
-        for i in range(rowIndex + 1):
-            if i <= 1:
-                continue
-            for k in range(1, i):
-                res[i][k] = res[i - 1][k - 1] + res[i - 1][k]
+        last = [1, 1]
+        for i in range(2, rowIndex + 1):
+            new = [1]
+            for j in range(1, len(last)):
+                new.append(last[j] + last[j - 1])
+            new.append(1)
+            last = new
 
-        return res[rowIndex]
+        return last
