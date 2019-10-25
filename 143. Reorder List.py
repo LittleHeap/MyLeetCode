@@ -9,31 +9,24 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        if not head:
-            return None
 
-        res = []
-
-        start = head
+        node = []
         while head:
-            res.append(head)
+            node.append(head)
             head = head.next
 
-        i = 0
-        n = len(res)
+        n = len(node)
         if n <= 1:
-            return start
+            return
 
-        while i != n // 2 - 1:
-            res[i].next = res[n - i - 1]
-            res[n - i - 1].next = res[i + 1]
-            i += 1
-
-        if n % 2 == 0:
-            res[i + 1].next = None
-        else:
-            res[i].next = res[i + 2]
-            res[i + 2].next = res[i + 1]
-            res[i + 1].next = None
-
-        return start
+        mid = n // 2
+        l = 0
+        r = n - 1
+        while 1:
+            node[l].next = node[r]
+            l += 1
+            node[r].next = node[l]
+            r -= 1
+            if r == mid or l == mid:
+                node[mid].next = None
+                break

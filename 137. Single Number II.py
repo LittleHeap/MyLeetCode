@@ -1,10 +1,16 @@
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
 
-        d = {}
-        for ele in nums:
-            d[ele] = d.get(ele, 0) + 1
-            if d.get(ele) == 3:
-                d.pop(ele)
+        out = set()
 
-        return list(d.items())[0][0]
+        hold = set()
+
+        for ele in nums:
+            if ele not in out:
+                if ele not in hold:
+                    hold.add(ele)
+                else:
+                    hold.remove(ele)
+                    out.add(ele)
+
+        return list(hold)[0]
