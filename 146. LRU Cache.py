@@ -2,26 +2,25 @@ class LRUCache:
 
     def __init__(self, capacity: int):
         self.stack = []
-        self.n = capacity
-        self.save = {}
+        self.d = {}
+        self.c = capacity
 
     def get(self, key: int) -> int:
-        if self.save.get(key) is not None:
-            self.stack.remove(key)
-            self.stack.append(key)
-            return self.save.get(key)
-        else:
+        if key not in self.d:
             return -1
+        else:
+            for i in range(len(self.stack)):
+                if self.stack[i] == key:
+                    self.stack.append(self.stack.pop(i))
+                    return self.d[key]
 
     def put(self, key: int, value: int) -> None:
-        if key in self.save:
-            self.stack.pop(self.stack.index(key))
+        if key not in self.d:
             self.stack.append(key)
-            self.save[key] = value
-        elif len(self.stack) == self.n:
-                self.stack.append(key)
-                self.save.pop(self.stack.pop(0))
-                self.save[key] = value
+            self.d[key] = value
+            if len(self.stack) > self.c:
+                self.d.pop(self.stack.pop(0))
         else:
-            self.stack.append(key)
-            self.save[key] = value
+            self.d[key] = value
+            i = self.stack.index(key)
+            self.stack.append(self.stack.pop(i))

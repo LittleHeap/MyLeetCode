@@ -10,14 +10,16 @@ class Solution:
 
         if not root:
             return []
+
         res = []
 
         def pre(node):
-            if node is None:
+            if not node:
                 return
-            res.append(node.val)
-            pre(node.left)
-            pre(node.right)
+            else:
+                res.append(node.val)
+                pre(node.left)
+                pre(node.right)
 
         pre(root)
         return res

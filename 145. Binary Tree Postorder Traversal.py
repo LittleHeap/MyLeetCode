@@ -14,11 +14,12 @@ class Solution:
         res = []
 
         def post(node):
-            if node is None:
+            if not node:
                 return
-            post(node.left)
-            post(node.right)
-            res.append(node.val)
+            else:
+                post(node.left)
+                post(node.right)
+                res.append(node.val)
 
         post(root)
         return res

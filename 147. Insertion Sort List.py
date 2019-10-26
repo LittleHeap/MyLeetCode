@@ -6,30 +6,24 @@
 
 class Solution:
     def insertionSortList(self, head: ListNode) -> ListNode:
-
         if not head:
             return head
-        res = []
 
+        node = []
         while head:
-            res.append(head)
+            node.append(head)
             head = head.next
 
-        for i in range(len(res)):
-            temp = res[i]
-            index = i
-            while index - 1 >= 0:
-                if temp.val < res[index - 1].val:
-                    res[index] = res[index - 1]
-                    index -= 1
-                else:
-                    res[index] = temp
-                    break
-            if index == 0:
-                res[index] = temp
+        for i in range(len(node)):
+            l = i - 1
+            temp = node[i]
+            while l >= 0 and temp.val < node[l].val:
+                node[l + 1] = node[l]
+                l -= 1
+            node[l + 1] = temp
 
-        res.append(None)
-        for i in range(len(res) - 1):
-            res[i].next = res[i + 1]
+        for i in range(len(node) - 1):
+            node[i].next = node[i + 1]
 
-        return res[0]
+        node[-1].next = None
+        return node[0]
