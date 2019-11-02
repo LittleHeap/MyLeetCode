@@ -3,18 +3,19 @@ class Solution:
 
         res = [float('inf')]
 
-        def bi(l, r):
-            if r - l <= 1:
-                res[0] = min(res[0], nums[l])
+        def deep(l):
+            if not l:
                 return
-            mid = (l + r) // 2
-            if nums[l] <= nums[mid - 1]:
-                res[0] = min(res[0], nums[l])
-                bi(mid, r)
+            if len(l) <= 2:
+                res[0] = min(res[0], min(l))
+                return
+            mid = len(l) // 2
+            if l[0] <= l[mid]:
+                res[0] = min(res[0], l[0])
+                deep(l[mid + 1:])
             else:
-                res[0] = min(res[0], nums[mid])
-                bi(l, mid)
+                res[0] = min(res[0], l[mid + 1])
+                deep(l[:mid + 1])
 
-        bi(0, len(nums))
-
+        deep(nums)
         return res[0]

@@ -1,6 +1,5 @@
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
-        stack = []
 
         op = set()
         op.add('+')
@@ -8,19 +7,25 @@ class Solution:
         op.add('*')
         op.add('/')
 
+        cur = []
         for ele in tokens:
             if ele not in op:
-                stack.append(int(ele))
+                cur.append(int(ele))
             else:
-                a = stack.pop()
-                b = stack.pop()
                 if ele == '+':
-                    stack.append(a + b)
+                    cur.append(cur.pop() + cur.pop())
                 elif ele == '-':
-                    stack.append(b - a)
+                    a = cur.pop()
+                    b = cur.pop()
+                    cur.append(b - a)
                 elif ele == '*':
-                    stack.append(a * b)
+                    cur.append(cur.pop() * cur.pop())
                 else:
-                    stack.append(int(b / a))
-
-        return (int(stack[0]))
+                    a = cur.pop()
+                    b = cur.pop()
+                    if b / a != b // a and b * a < 0:
+                        res = b // a + 1
+                    else:
+                        res = b // a
+                    cur.append(res)
+        return cur[0]

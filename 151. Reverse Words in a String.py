@@ -1,26 +1,16 @@
 class Solution:
     def reverseWords(self, s: str) -> str:
+        hold = s.split(' ')
 
-        s = list(s)
-
+        hold.reverse()
         res = []
-        while s:
-            while s and s[0] == ' ':
-                s.pop(0)
-            if not s:
-                break
-            cur = []
-            while s and s[0] != ' ':
-                cur.append(s.pop(0))
-            if not s:
-                res.append(''.join(cur))
-                break
-            res.append(''.join(cur))
+        for ele in hold:
+            if ele != '':
+                res.append(ele)
 
-        res.reverse()
         ans = ''
         for ele in res:
             ans += ele + ' '
 
-        ans = ans[:-1]
+        ans = ans[:len(ans) - 1]
         return ans
