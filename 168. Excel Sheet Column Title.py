@@ -1,26 +1,21 @@
-class Solution:
-    def convertToTitle(self, n: int) -> str:
+n = 52
 
-        s = {}
+s = {}
+for i in range(65, 91):
+    s[i - 64] = chr(i)
 
-        for i in range(65, 91):
-            s[i - 64] = chr(i)
-
-        p = 0
-        hold = 26
-        while hold < n:
-            p += 1
-            hold += 26 * (26 ** p)
-
-        res = []
-        while n != 0:
-            cur = n // (26 ** p)
-            n -= cur * (26 ** p)
-            if n == 0 and p != 0:
-                n += cur * (26 ** p)
-                cur -= 1
-                n -= cur * (26 ** p)
-            res.append(s[cur])
-            p -= 1
-
-        return ''.join(res)
+ans = ''
+while n != 0:
+    if n == 26:
+        ans = 'Z' + ans
+        break
+    cur = n % 26
+    if cur == 0:
+        ans = 'Z' + ans
+        n -= 26
+        n = n // 26
+    else:
+        ans = s[cur] + ans
+        n -= cur
+        n = n // 26
+print(ans)

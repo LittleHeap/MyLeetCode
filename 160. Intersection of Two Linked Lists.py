@@ -10,23 +10,35 @@ class Solution(object):
         :type head1, head1: ListNode
         :rtype: ListNode
         """
-        a = []
+        if headA == headB:
+            return headA
+
+        la = []
+        lb = []
         while headA:
-            a.append(headA)
+            la.append(headA)
             headA = headA.next
-        b = []
+
         while headB:
-            b.append(headB)
+            lb.append(headB)
             headB = headB.next
-        if len(a) == 0 or len(b) == 0:
-            return None
-        i = -1
-        pre = None
-        while True:
-            if abs(i) > min(len(a), len(b)):
-                return pre
-            if a[i] == b[i]:
-                pre = a[i]
-                i = i - 1
+
+        la.reverse()
+        lb.reverse()
+        n = min(len(la), len(lb))
+        for i in range(n):
+            if la[i] != lb[i]:
+                if i == 0:
+                    return None
+                else:
+                    return la[i - 1]
+        if len(la) < len(lb):
+            if la:
+                return la[-1]
             else:
-                return pre
+                return None
+        else:
+            if lb:
+                return lb[-1]
+            else:
+                return None
