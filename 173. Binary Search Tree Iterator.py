@@ -9,13 +9,15 @@ class BSTIterator:
 
     def __init__(self, root: TreeNode):
         self.l = []
-        def inorder(node):
+
+        def mid(node):
             if node is None:
                 return
-            inorder(node.left)
+            mid(node.left)
             self.l.append(node.val)
-            inorder(node.right)
-        inorder(root)
+            mid(node.right)
+
+        mid(root)
 
     def next(self) -> int:
         """
@@ -31,7 +33,6 @@ class BSTIterator:
             return True
         else:
             return False
-
 
 # Your BSTIterator object will be instantiated and called as such:
 # obj = BSTIterator(root)
