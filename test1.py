@@ -1,20 +1,11 @@
-s = '06:34'
+n = 72328
 
-s = s.split(':')
-h = list(s[0])
-m = list(s[1])
+n = list(str(n))
+l = len(n)
 
-if h[0] == '?':
-    h[0] = '2'
-if h[1] == '?':
-    if int(h[0]) <= 1:
-        h[1] = '9'
-    else:
-        h[1] = '3'
+for i in range(0, l, 2):
+    if i + 1 < l:
+        n[i], n[i + 1] = n[i + 1], n[i]
 
-if m[0] == '?':
-    m[0] = '5'
-if m[1] == '?':
-    m[1] = '9'
-
-print(''.join(h) + ':' + ''.join(m))
+n = int(''.join(n))
+print(n)
