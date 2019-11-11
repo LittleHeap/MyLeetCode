@@ -1,21 +1,21 @@
 class Solution:
     def rangeBitwiseAnd(self, m: int, n: int) -> int:
-        m = bin(m)
-        n = bin(n)
+        m = str(bin(m))[2:]
+        n = str(bin(n))[2:]
 
-        if len(m) != len(n):
+        lm = len(m)
+        ln = len(n)
+
+        if lm != ln:
             return 0
+        else:
+            for i in range(lm):
+                if m[i] != n[i]:
+                    m = m[:i]
+                    ap = ''
+                    for _ in range(lm - i):
+                        ap += '0'
+                    m += ap
+                    break
 
-        l = 0
-        length = len(m)
-        while l < length and m[l] == n[l]:
-            l += 1
-
-        l -= 2
-        m = list(m)[2:]
-        for i in range(len(m) - 1, l - 1, -1):
-            m[i] = '0'
-
-        m = ''.join(m)
-
-        return (int(m, 2))
+        return int(m, 2)

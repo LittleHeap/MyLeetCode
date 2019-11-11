@@ -1,17 +1,16 @@
 class Solution:
     def isHappy(self, n: int) -> bool:
 
-        s = set()
-        s.add(n)
+        save = set()
         while 1:
-            cur = list(str(n))
+            nums = list(str(n))
             res = 0
-            for ele in cur:
+            for ele in nums:
                 res += int(ele) ** 2
             if res == 1:
                 return True
-            if res in s:
-                return False
+            if res not in save:
+                save.add(res)
+                n = res
             else:
-                s.add(res)
-            n = res
+                return False
