@@ -1,25 +1,16 @@
-class Solution(object):
-    def isIsomorphic(self, s, t):
-        """
-        :type s: str
-        :type t: str
-        :rtype: bool
-        """
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
         d = {}
-
-        for i in range(len(s)):
-            if s[i] == t[i]:
-                if s[i] not in d:
-                    d[s[i]] = t[i]
-                else:
-                    if d[s[i]] != t[i]:
-                        return False
+        n = len(s)
+        m = len(t)
+        if m != n:
+            return False
+        for i in range(n):
+            if s[i] not in d:
+                if t[i] in d.values():
+                    return False
+                d[s[i]] = t[i]
             else:
-                if s[i] not in d:
-                    if t[i] in d.values():
-                        return False
-                    d[s[i]] = t[i]
-                else:
-                    if d[s[i]] != t[i]:
-                        return False
+                if d[s[i]] != t[i]:
+                    return False
         return True
