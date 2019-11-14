@@ -1,33 +1,32 @@
-matrix = [["1", "0", "1", "0"], ["1", "0", "1", "1"], ["1", "0", "1", "1"], ["1", "1", "1", "1"]]
+class Solution:
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        m = len(matrix)
+        if m == 0:
+            return 0
+        n = len(matrix[0])
+        if n == 0:
+            return 0
+        hold = [[0 for _ in range(n)] for _ in range(m)]
 
-m = len(matrix)
-n = len(matrix[0])
+        for j in range(n):
+            for i in range(m):
+                if matrix[i][j] == '1':
+                    hold[i][j] = 1
+        for j in range(n):
+            for i in range(1, m):
+                if matrix[i][j] == '1':
+                    hold[i][j] += hold[i - 1][j]
 
-mat = [[0 for _ in range(n)] for _ in range(m)]
-
-for i in range(m):
-    for j in range(n):
-        if matrix[i][j] == '1':
-            if i - 1 >= 0:
-                mat[i][j] = mat[i - 1][j] + 1
-            else:
-                mat[i][j] = 1
-
-print(mat)
-ans = 0
-for i in range(m):
-    for j in range(n):
-        if matrix[i][j] == '1':
-            ans = max(ans, 1)
-            height = mat[i][j]
-            for k in range(j + 1, n):
-                if matrix[i][k] == '1':
-                    height = min(height, mat[i][k])
-                    width = k + 1 - j
-                    ans = max(ans, min(height, width) ** 2)
-                    if width > height:
-                        break
-                else:
-                    break
-
-print(ans)
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                if hold[i][j] != 0:
+                    res = max(res, 1)
+                    h = hold[i][j]
+                    for r in range(j + 1, n):
+                        if r - j + 1 > h:
+                            break
+                        h = min(h, hold[i][r])
+                        if h == r - j + 1:
+                            res = max(res, h * (r - j + 1))
+        return res
