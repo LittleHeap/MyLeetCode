@@ -10,9 +10,6 @@ class Solution:
         while head:
             l.append(head.val)
             head = head.next
-        a = l.copy()
-        a.reverse()
-        if a == l:
-            return True
-        else:
-            return False
+        newl = l.copy()
+        newl.reverse()
+        return newl == l

@@ -6,15 +6,15 @@
 #         self.right = None
 
 class Solution:
-    def kthSmallest(self, root: TreeNode, k: int) -> int:
-        res = []
+    def invertTree(self, root: TreeNode) -> TreeNode:
 
         def deep(node):
-            if not node:
+            if node is None:
                 return
-            deep(node.left)
-            res.append(node.val)
-            deep(node.right)
+            else:
+                node.left, node.right = node.right, node.left
+                deep(node.left)
+                deep(node.right)
 
         deep(root)
-        return res[k - 1]
+        return root
