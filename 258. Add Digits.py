@@ -1,9 +1,9 @@
-num = 10
+class Solution:
+    def addDigits(self, num: int) -> int:
 
-while num >= 10:
-    num = list(str(num))
-    new = 0
-    for ele in num:
-        new = new + int(ele)
-    num = new
-print(num)
+        while len(str(num)) > 1:
+            new = 0
+            for n in str(num):
+                new += int(n)
+            num = new
+        return num
