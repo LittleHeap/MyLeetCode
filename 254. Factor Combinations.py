@@ -1,24 +1,33 @@
-n = 7
+n = 32
 
+hold = set()
 res = []
 
+def deep():
+    if len(res) == 0:
+        for i in range(2, n // 2 + 1):
+            if n % i == 0:
+                new = [i, n // i]
+                new.sort()
+                if tuple(new) not in hold:
+                    res.append(new)
+                    hold.add(tuple(new))
+                    deep()
+                else:
+                    return
+    else:
+        target = res[-1][-1]
+        origin = res[-1][:-1]
+        for i in range(2, target // 2 + 1):
+            if target % i == 0:
+                new = origin + [i, target // i]
+                new.sort()
+                if tuple(new) not in hold:
+                    res.append(new)
+                    hold.add(tuple(new))
+                    deep()
+                else:
+                    return
 
-def deep(num, cur):
-    print(num)
-    if num == 2 or num == 1:
-        newcur = cur.copy()
-        if num == 2:
-            newcur.append(2)
-        newcur.sort()
-        if newcur not in res:
-            res.append(newcur)
-        return
-    for i in range(2, n):
-        if num % i == 0:
-            newcur = cur.copy()
-            newcur.append(i)
-            deep(num // i, newcur)
-
-
-deep(n, [])
+deep()
 print(res)
