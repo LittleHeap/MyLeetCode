@@ -1,14 +1,12 @@
-class Solution(object):
-    def findDisappearedNumbers(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[int]
-        """
-        save = {}
-        for ele in nums:
-            save[ele] = 1
+class Solution:
+    def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
+
+        hold = set(nums)
+
+        k = len(nums)
         res = []
-        for i in range(len(nums)):
-            if save.get(i + 1) is None:
-                res.append(i + 1)
-        return res
+        for i in range(1, k + 1):
+            if i not in hold:
+                res.append(i)
+
+        return (res)

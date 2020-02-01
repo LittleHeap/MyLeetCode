@@ -1,13 +1,16 @@
-nums = [1, 1, 1, 1, 1]
-S = 3
+class Solution:
+    def findTargetSumWays(self, nums: List[int], S: int) -> int:
+        hold = {}
 
-dp = [{} for _ in range(len(nums) + 1)]
-dp[0][0] = 1
-print(dp)
+        for ele in nums:
+            if not hold:
+                hold[ele] = 1
+                hold[-ele] = hold.get(-ele, 0) + 1
+            else:
+                newhold = {}
+                for key in hold:
+                    newhold[key + ele] = newhold.get(key + ele, 0) + hold[key]
+                    newhold[key - ele] = newhold.get(key - ele, 0) + hold[key]
+                hold = newhold
 
-for i in range(1, len(nums) + 1):
-    for ele in dp[i - 1]:
-        dp[i][ele + nums[i - 1]] = dp[i].get(ele + nums[i - 1], 0) + dp[i - 1].get(ele)
-        dp[i][ele - nums[i - 1]] = dp[i].get(ele - nums[i - 1], 0) + dp[i - 1].get(ele)
-
-print(dp[-1].get(S))
+        return hold.get(S, 0)

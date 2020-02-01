@@ -1,27 +1,27 @@
-s = "2[abc]3[cd]ef"
+class Solution:
+    def decodeString(self, s: str) -> str:
+        s = list(s)
 
-nums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-stack = []
+        nums = set()
+        for i in range(10):
+            nums.add(str(i))
+        stack = []
 
-leftindex = []
-for i, ele in enumerate(s):
-    stack.append(ele)
-    if ele == ']':
-        stack.pop()
-        curstr = []
-        curnum = []
-        while stack[-1] != '[':
-            curstr.append(stack.pop())
-        stack.pop()
-        curstr.reverse()
-        while stack and stack[-1] in nums:
-            curnum.append(stack.pop())
-        curnum.reverse()
-        curnum = int(''.join(curnum))
-        curstr = curstr * curnum
-        stack.extend(curstr)
+        for char in s:
+            if char == ']':
+                cur = []
+                while stack[-1] != '[':
+                    cur.append(stack.pop())
+                cur.reverse()
+                stack.pop()
+                times = []
+                while stack and stack[-1] in nums:
+                    times.append(stack.pop())
+                times.reverse()
+                times = int(''.join(times))
+                for _ in range(times):
+                    stack += cur
+            else:
+                stack.append(char)
 
-print(''.join(stack))
-
-
-
+        return ''.join(stack)
