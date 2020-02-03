@@ -1,16 +1,18 @@
-nums = [1, 1, 1]
-k = 2
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
 
-d = {}
-ans = 0
+        cul = 0
+        s = {}
 
-d[0] = 1
-s = 0
-for ele in nums:
-    s = s + ele
-    if d.get(s - k) is not None:
-        ans = ans + d.get(s - k)
-    d[s] = d.get(s, 0) + 1
+        res = 0
+        for ele in nums:
+            cul += ele
+            s[cul] = s.get(cul, 0) + 1
+            if cul - k in s:
+                res += s[cul - k]
+                if k == 0:
+                    res -= 1
+            if cul == k:
+                res += 1
 
-print(d)
-print(ans)
+        return res

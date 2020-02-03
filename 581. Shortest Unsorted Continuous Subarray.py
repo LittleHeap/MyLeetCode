@@ -1,25 +1,20 @@
-nums = [1, 2, 3, 5, 4]
+class Solution:
+    def findUnsortedSubarray(self, nums: List[int]) -> int:
 
-another = nums.copy()
-another.sort()
-print(another)
+        right = sorted(nums)
 
-l = 1
-r = 1
-left = 0
-right = len(nums) - 1
+        n = len(nums)
 
-while left < right and (l or r):
-    if l and another[left] == nums[left]:
-        left += 1
-    else:
-        l = 0
-    if r and another[right] == nums[right]:
-        right -= 1
-    else:
-        r = 0
+        start = 0
+        end = -1
+        for i in range(n):
+            if nums[i] != right[i]:
+                start = i
+                break
 
-if right > left:
-    print(right - left + 1)
-else:
-    print(0)
+        for j in range(n - 1, -1, -1):
+            if nums[j] != right[j]:
+                end = j
+                break
+
+        return end - start + 1
