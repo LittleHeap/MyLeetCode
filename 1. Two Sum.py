@@ -10,3 +10,4 @@ class Solution:
                 res = [i, save.get(target - nums[i])]
                 break
         return res
+
