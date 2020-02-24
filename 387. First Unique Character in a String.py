@@ -1,23 +1,17 @@
 class Solution:
     def firstUniqChar(self, s: str) -> int:
-        res = []
+        hold = []
+        appear = set()
         d = {}
-        h = set()
+        for i, ele in enumerate(list(s)):
+            if ele not in appear:
+                hold.append(ele)
+                appear.add(ele)
+                d[ele] = i
+            elif ele in hold:
+                hold.pop(hold.index(ele))
 
-        for i in range(len(s)):
-            if s[i] in h:
-                continue
-            if s[i] not in d:
-                d[s[i]] = i
-            else:
-                d.pop(s[i])
-                h.add(s[i])
-
-        ans = float('inf')
-        if not d:
+        if hold:
+            return d[hold[0]]
+        else:
             return -1
-
-        for ele in d.items():
-            ans = min(ans, ele[1])
-
-        return ans

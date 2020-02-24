@@ -1,15 +1,14 @@
-s = "abcd"
-t = "abcde"
+class Solution:
+    def findTheDifference(self, s: str, t: str) -> str:
+        ds = {}
+        dt = {}
 
-S = {}
-for ele in s:
-    S[ele] = S.get(ele, 0) + 1
+        for ele in s:
+            ds[ele] = ds.get(ele, 0) + 1
 
-for ele in t:
-    if ele not in S:
-        print(ele)
-        break
-    if S.get(ele) > 0:
-        S[ele] = S.get(ele) - 1
-    else:
-        print(ele)
+        for ele in t:
+            if ele not in ds:
+                return ele
+            dt[ele] = dt.get(ele, 0) + 1
+            if dt[ele] > ds[ele]:
+                return ele
