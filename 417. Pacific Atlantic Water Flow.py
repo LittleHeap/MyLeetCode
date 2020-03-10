@@ -7,43 +7,31 @@ matrix = [[1, 2, 2, 3, 5],
 m = len(matrix)
 n = len(matrix[0])
 
-lr = []
-done = set()
-t = [[0 for _ in range(n)] for _ in range(m)]
+p = [[0 for _ in range(n)] for _ in range(m)]
+a = [[0 for _ in range(n)] for _ in range(m)]
 
 
-def dfs(i, j, src, res):
-    done.add((i, j))
-    if i + 1 == m or j + 1 == n:
-        for ele in src:
-            t[ele[0]][ele[1]] = 1
-        res.extend(src)
-    else:
-        if i + 1 < m and (i + 1, j) not in done:
-            if matrix[i + 1][j] > matrix[src[0][0]][src[0][1]]:
-                src = [(i + 1, j)]
-            elif matrix[i + 1][j] == matrix[src[0][0]][src[0][1]] and (i, j) in src:
-                src.append((i + 1, j))
-            dfs(i + 1, j, src, res)
-        if i - 1 >= 0 and (i - 1, j) not in done:
-            if matrix[i - 1][j] > matrix[src[0][0]][src[0][1]]:
-                src = [(i - 1, j)]
-            elif matrix[i - 1][j] == matrix[src[0][0]][src[0][1]] and (i, j) in src:
-                src.append((i - 1, j))
-            dfs(i - 1, j, src, res)
-        if j + 1 < n and (i, j + 1) not in done:
-            if matrix[i][j + 1] > matrix[src[0][0]][src[0][1]]:
-                src = [(i, j + 1)]
-            elif matrix[i][j + 1] == matrix[src[0][0]][src[0][1]] and (i, j) in src:
-                src.append((i, j + 1))
-            dfs(i, j + 1, src, res)
-        if j - 1 >= 0 and (i, j - 1) not in done:
-            if matrix[i][j - 1] > matrix[src[0][0]][src[0][1]]:
-                src = [(i, j - 1)]
-            elif matrix[i][j - 1] == matrix[src[0][0]][src[0][1]] and (i, j) in src:
-                src.append((i, j - 1))
-            dfs(i, j - 1, src, res)
+def dfs(ocean, i, j):
+    ocean[i][j] = 1
+    for x, y in [(i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)]:
+        if (x < 0 or x >= m or y < 0 or y >= n) or matrix[i][j] > matrix[x][y] or ocean[x][y]:
+            continue
+        else:
+            dfs(ocean, x, y)
 
 
-dfs(0, 0, [(0, 0)], lr)
-print(lr)
+for i in range(m):
+    dfs(p, i, 0)
+    dfs(a, i, n - 1)
+
+for j in range(n):
+    dfs(p, 0, j)
+    dfs(a, m - 1, j)
+
+res = []
+for i in range(m):
+    for j in range(n):
+        if a[i][j] and p[i][j]:
+            res.append([[i, j]])
+
+print(res)
