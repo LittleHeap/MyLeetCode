@@ -1,9 +1,9 @@
 # Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
 
 class Solution:
     def zigzagLevelOrder(self, root: TreeNode) -> List[List[int]]:
@@ -11,28 +11,31 @@ class Solution:
         if not root:
             return []
 
+        q = []
+        cur = []
+
         res = []
-        cur = [root]
+
+        q.append(root)
+        cur.append(root.val)
         flag = 0
-        while cur:
-            newcur = []
-            rescur = []
-            while cur:
-                node = cur.pop(0)
-                rescur.append(node.val)
-                if node.left:
-                    newcur.append(node.left)
-                if node.right:
-                    newcur.append(node.right)
+
+        while q:
             if flag:
-                rescur.reverse()
-                res.append(rescur)
-            else:
-                res.append(rescur)
+                cur.reverse()
             flag = 1 - flag
-            if not newcur:
-                break
-            else:
-                cur = newcur
+            res.append(cur)
+            newq = []
+            newcur = []
+            while q:
+                node = q.pop(0)
+                if node.left:
+                    newq.append(node.left)
+                    newcur.append(node.left.val)
+                if node.right:
+                    newq.append(node.right)
+                    newcur.append(node.right.val)
+            q = newq
+            cur = newcur
 
         return res
