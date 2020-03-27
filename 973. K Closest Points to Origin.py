@@ -1,14 +1,15 @@
-points = [[3, 3], [5, -1], [-2, 4]]
-K = 2
+class Solution:
+    def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
 
-d = []
-for i in range(len(points)):
-    d.append((points[i][0]**2 + points[i][1]**2, i))
+        hold = []
 
-d = sorted(d, key=lambda x:x[0])
+        for ele in points:
+            heapq.heappush(hold, ((ele[0] ** 2 + ele[1] ** 2), ele[0], ele[1]))
 
-res = []
-for i in range(K):
-    res.append(points[d.pop(0)[1]])
+        res = []
 
-print(res)
+        for _ in range(K):
+            cur = heapq.heappop(hold)
+            res.append([cur[1], cur[2]])
+
+        return res
