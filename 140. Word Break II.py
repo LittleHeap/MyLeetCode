@@ -1,44 +1,40 @@
-s = "catsanddog"
-wordDict = ["cat", "cats", "and", "sand", "dog"]
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
 
-word = []
-for i in range(len(wordDict)):
-    word.append((wordDict[i], len(wordDict[i])))
+        def cup(word):
+            return (len(word), word)
 
-word = sorted(word, key=lambda x: x[1])
+        hold = list(map(cup, wordDict))
 
-wordDict = set(wordDict)
-n = len(s)
+        dp = [0 for _ in range(len(s) + 1)]
+        dp[0] = 1
+        for index in range(len(s)):
+            for step in hold:
+                if index + 1 - step[0] >= 0 and dp[index + 1 - step[0]] == 1 and step[1] == s[index - step[
+                    0] + 1:index + 1]:
+                    dp[index + 1] = 1
+        if dp[-1] == 0:
+            return []
 
-res = []
-save = {}
+        res = []
+        n = len(s)
 
+        record = [[] for _ in range(len(s) + 1)]
+        record[0].append([])
+        dp = [0 for _ in range(len(s) + 1)]
+        dp[0] = 1
 
-def deep(s, l, cur):
-    if l and l[-1] == n:
-        ans = ''
-        for ele in cur:
-            ans += ele + ' '
-        ans = ans[:-1]
-        res.append(ans)
-        return
-    if not l:
-        for i in range(1, n + 1):
-            if s[:i] in wordDict:
-                newl = l.copy()
-                newl.append(i)
-                newcur = cur.copy()
-                newcur.append(s[:i])
-                deep(s, newl, newcur)
-    else:
-        for i in range(l[-1] + 1, n + 1):
-            if s[l[-1]:i] in wordDict:
-                newl = l.copy()
-                newl.append(i)
-                newcur = cur.copy()
-                newcur.append(s[l[-1]:i])
-                deep(s, newl, newcur)
+        for index in range(len(s)):
+            for step in hold:
+                if index + 1 - step[0] >= 0 and dp[index + 1 - step[0]] == 1 and step[1] == s[index - step[
+                    0] + 1:index + 1]:
+                    dp[index + 1] = 1
+                    for l in record[index + 1 - step[0]]:
+                        newl = l.copy()
+                        newl.append(step[1])
+                        record[index + 1].append(newl)
 
-
-deep(s, [], [])
-print(res)
+        res = []
+        for ele in record[-1]:
+            res.append(' '.join(ele))
+        return res
