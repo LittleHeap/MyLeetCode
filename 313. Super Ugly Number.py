@@ -1,16 +1,26 @@
-n = 12
-primes = [2, 7, 13, 19]
+class Solution:
+    def nthSuperUglyNumber(self, n: int, primes: List[int]) -> int:
 
+        index = [0 for _ in range(len(primes))]
 
-c = 1
-n = 2
-while c < 12:
-    print(n)
-    for ele in primes:
-        if n % ele == 0:
-            n += 1
-            c += 1
-            continue
-    n += 1
+        res = [1]
+        cur = [1]
 
-print(n)
+        d = defaultdict(list)
+
+        for i in range(1, n + 1):
+            mini = heapq.heappop(cur)
+            if mini == 1:
+                for j, k in enumerate(index):
+                    heapq.heappush(cur, mini * primes[j])
+                    d[mini * primes[j]].append(j)
+            else:
+                res.append(mini)
+                for j in d[mini]:
+                    index[j] += 1
+                    if res[index[j]] * primes[j] not in cur:
+                        heapq.heappush(cur, res[index[j]] * primes[j])
+                    d[res[index[j]] * primes[j]].append(j)
+                del d[mini]
+
+        return res[-1]

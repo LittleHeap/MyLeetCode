@@ -1,22 +1,8 @@
-nums = [3,30,34,5,9]
-n = 0
-for ele in nums:
-    n = max(len(str(ele)), n)
+class Solution:
+    def largestNumber(self, nums: List[int]) -> str:
+        nums = map(str, nums)
 
-d = {}
-for ele in nums:
-    s = str(ele)
-    m = len(s)
-    head = int(s[-1])
-    for _ in range(n - m):
-        s += str(head)
-    s = int(s)
-    d[ele] = s
+        hold = sorted(nums, key=functools.cmp_to_key(lambda a, b: 1 if a + b > b + a else -1 if a + b < b + a else 0),
+                      reverse=True)
 
-hold = sorted(d.items(), key=lambda x: x[1], reverse=True)
-
-res = ''
-for ele in hold:
-    res += str(ele[0])
-
-print(res)
+        return str(int(''.join(hold)))
