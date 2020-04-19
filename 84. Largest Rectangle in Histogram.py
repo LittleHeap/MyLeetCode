@@ -1,12 +1,17 @@
-heights = [2, 1, 5, 6, 2, 3]
+class Solution:
+    def largestRectangleArea(self, height: List[int]) -> int:
 
-n = len(heights)
-ans = 0
-for i in range(n):
-    h = heights[i]
-    ans = max(ans, h)
-    for j in range(i + 1, n):
-        h = min(h, heights[j])
-        ans = max(ans, h * (j -i + 1))
+        # Trick: solve the long increasing condition
+        height.append(0)
 
-print(ans)
+        stack = []
+        res = float('-inf')
+
+        for i, ele in enumerate(height):
+            temp = i
+            while stack and stack[-1][0] >= ele:
+                h, i = stack.pop()
+                res = max(res, (temp - i) * h)
+            stack.append((ele, i))
+
+        return (0 if res == float('-inf') else res)
