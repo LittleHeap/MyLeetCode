@@ -1,27 +1,26 @@
-beginWord = "hit"
-endWord = "cog"
-wordList = ["hot", "dot", "dog", "lot", "log", "cog"]
+class Solution:
+    def ladderLength(self, begin: str, end: str, w: List[str]) -> int:
 
-wordList = set(wordList)
-# if endWord not in wordList:
-#     return 0
-beginWord = list(beginWord)
-endWord = list(endWord)
+        w = set(w)
 
-ans = 0
-n = len(beginWord)
-while beginWord != endWord:
-    print(beginWord)
-    temp = beginWord.copy()
-    for i in range(n):
-        if beginWord[i] != endWord[i]:
-            beginWord[i] = endWord[i]
-            if ''.join(beginWord) in wordList:
-                ans += 1
-                break
-            else:
-                beginWord = temp.copy()
-    if beginWord == temp:
-        break
+        q = [begin]
+        done = set()
+        done.add(begin)
+        chars = list('abcdefghijklmnopqrstuvwxyz')
 
-print(ans)
+        step = 1
+        while q:
+            step += 1
+            newq = []
+            for word in q:
+                for i in range(len(word)):
+                    for char in chars:
+                        if char != word[i]:
+                            new = word[:i] + char + word[i + 1:]
+                            if new in w and new == end:
+                                return step
+                            elif new not in done and new in w:
+                                newq.append(new)
+                                done.add(new)
+            q = newq
+        return 0
