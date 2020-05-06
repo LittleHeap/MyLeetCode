@@ -1,11 +1,20 @@
-n = 72328
+import collections
+n = 7
+model = [7,10,1,2,7,7,1]
 
-n = list(str(n))
-l = len(n)
 
-for i in range(0, l, 2):
-    if i + 1 < l:
-        n[i], n[i + 1] = n[i + 1], n[i]
+target = (n + 1) // 2
+hold = collections.Counter(model)
 
-n = int(''.join(n))
-print(n)
+hold = sorted(hold.items(), key=lambda x:x[1], reverse = True)
+
+res = 0
+cur = 0
+for number, times in hold:
+    cur += times
+    res += 1
+    if cur >= target:
+        break
+
+
+print(res)

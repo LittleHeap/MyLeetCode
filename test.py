@@ -1,22 +1,34 @@
-M = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]
+import bisect
+low = 200
+high = 405
 
+three = [1]
+five = [1]
 
-m = len(M)
-n = len(M[0])
+pre = 1
+while pre * 3 <= high:
+    three.append(pre * 3)
+    pre *= 3
 
+pre = 1
+while pre * 5 <= high:
+    five.append(pre * 5)
+    pre *= 5
 
-dp = [[0 for _ in range(n)] for _ in range(m)]
+print(three)
+print(five)
+res = 0
 
-for i in range(m):
-    dp[i][0] = 1
-for j in range(n):
-    dp[0][j] = 1
+for num in three:
+    start = bisect.bisect_left(five, low // num)
+    end = bisect.bisect_left(five, high // num)
+    #print(start, end)
+    res += end - start
 
-for i in range(1, m):
-    for j in range(1, n):
-        if M[i][j] != 1:
-            dp[i][j] = dp[i][j - 1] + dp[i - 1][j]
+for num in five:
+    start = bisect.bisect_left(three, low // num)
+    end = bisect.bisect_left(three, high // num)
+    print(start, end)
+    res += end - start
 
-print(dp[-1][-1])
-
-
+print(res)
