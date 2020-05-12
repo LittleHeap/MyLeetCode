@@ -1,27 +1,24 @@
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def tree2str(self, t: TreeNode) -> str:
+
         if not t:
             return ''
-        res = []
-
-        def indeep(node, cur):
-            if node is None:
-                return
-            cur += str(node.val)
-            if node.left:
-                cur += indeep(node.left, '')
-            if not node.left and node.right:
-                cur += '()'
-                cur += indeep(node.right, '')
-            elif node.right:
-                cur += indeep(node.right, '')
-            return '(' + cur + ')'
-
-        return indeep(t, '')[1:-1]
+        cur = str(t.val)
+        left = self.tree2str(t.left)
+        right = self.tree2str(t.right)
+        if not left:
+            if right:
+                return cur + '()' + '(' + right + ')'
+            else:
+                return cur
+        else:
+            if right:
+                return cur + '(' + left + ')' + '(' + right + ')'
+            else:
+                return cur + '(' + left + ')'
