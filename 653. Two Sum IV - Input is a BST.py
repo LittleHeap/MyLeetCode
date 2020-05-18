@@ -1,23 +1,22 @@
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def findTarget(self, root: TreeNode, k: int) -> bool:
-        t = []
+
+        s = set()
 
         def deep(node):
-            if node is None:
-                return
-            t.append(node.val)
-            deep(node.left)
-            deep(node.right)
+            if not node:
+                return False
+            else:
+                if k - node.val in s:
+                    return True
+                else:
+                    s.add(node.val)
+                    return deep(node.left) or deep(node.right)
 
-        deep(root)
-        for i in range(len(t)):
-            if k - t[i] in t[:i] or k - t[i] in t[i + 1:]:
-                return True
-        return False
+        return deep(root)

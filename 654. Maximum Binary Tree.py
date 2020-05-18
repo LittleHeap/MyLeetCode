@@ -1,23 +1,20 @@
 # Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
-
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def constructMaximumBinaryTree(self, nums: List[int]) -> TreeNode:
-        def deep(node, l):
-            if len(l) == 0:
-                return None
-            node = TreeNode(max(l))
-            index = l.index(node.val)
-            leftl = l[:index]
-            rightl = l[index + 1:]
-            node.left = deep(node.left, leftl)
-            node.right = deep(node.right, rightl)
-            return node
 
-        node = TreeNode(0)
-        root = deep(node, nums)
-        return root
+        def deep(cur):
+            if not cur:
+                return None
+            else:
+                i = cur.index(max(cur))
+                node = TreeNode(cur[i])
+                node.left = deep(cur[:i])
+                node.right = deep(cur[i + 1:])
+                return node
+
+        return deep(nums)

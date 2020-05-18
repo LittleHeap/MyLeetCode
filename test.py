@@ -1,34 +1,27 @@
-import bisect
-low = 200
-high = 405
+def compress(chars):
+    chars = list(chars)
+    i = 0
+    while i < len(chars):
+        if i == 0:
+            i += 1
+        else:
+            if isinstance(chars[i - 1], int):
+                if chars[i] == chars[i - 2]:
+                    chars[i - 1] = chars[i - 1] + 1
+                    chars.pop(i)
+                else:
+                    i += 1
+            else:
+                if chars[i] == chars[i - 1]:
+                    chars[i] = 2
+                i += 1
+    i = 0
+    for i in range(len(chars)):
+        if isinstance(chars[i], int):
+            chars[i] = str(chars[i])
 
-three = [1]
-five = [1]
+    return ''.join(chars)
 
-pre = 1
-while pre * 3 <= high:
-    three.append(pre * 3)
-    pre *= 3
-
-pre = 1
-while pre * 5 <= high:
-    five.append(pre * 5)
-    pre *= 5
-
-print(three)
-print(five)
-res = 0
-
-for num in three:
-    start = bisect.bisect_left(five, low // num)
-    end = bisect.bisect_left(five, high // num)
-    #print(start, end)
-    res += end - start
-
-for num in five:
-    start = bisect.bisect_left(three, low // num)
-    end = bisect.bisect_left(three, high // num)
-    print(start, end)
-    res += end - start
-
-print(res)
+print(compress('bbcceeee'))
+print(compress('aaabbbcccaaa'))
+print(compress('a'))
