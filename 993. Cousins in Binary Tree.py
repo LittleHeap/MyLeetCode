@@ -1,30 +1,27 @@
 # Definition for a binary tree node.
-class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
-
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def isCousins(self, root: TreeNode, x: int, y: int) -> bool:
 
-        X = []
-        Y = []
+        q = [(root, 1)]
 
-        def deep(node, level, f):
-            if node is None:
-                return
-            if node.val == x:
-                X.append(level)
-                X.append(f)
-            elif node.val == y:
-                Y.append(level)
-                Y.append(f)
-            deep(node.left, level + 1, node)
-            deep(node.right, level + 1, node)
-
-        deep(root, 0, None)
-        if X[0] == Y[0] and X[1] != Y[1]:
-            return True
-        else:
-            return False
+        while q:
+            newq = []
+            xnum, ynum = 0, 0
+            for i, (node, num) in enumerate(q):
+                if node.val == x:
+                    xnum = num
+                if node.val == y:
+                    ynum = num
+                newq += ([(node.left, num * 2)] if node.left else [])
+                newq += ([(node.right, num * 2 + 1)] if node.right else [])
+            if xnum and ynum and (xnum // 2 != ynum // 2):
+                return True
+            elif xnum or ynum:
+                return False
+            else:
+                q = newq

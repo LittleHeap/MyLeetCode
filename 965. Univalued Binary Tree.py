@@ -1,23 +1,21 @@
 # Definition for a binary tree node.
 # class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 class Solution:
     def isUnivalTree(self, root: TreeNode) -> bool:
-        res = set()
 
-        def deep(node):
-            if node is None:
-                return
-            res.add(node.val)
-            deep(node.left)
-            deep(node.right)
+        self.val = root.val
 
-        deep(root)
-        if len(res) == 1:
-            return True
-        else:
-            return False
+        q = [root]
+        while q:
+            cur = q.pop(0)
+            if cur.val != self.val:
+                return False
+            else:
+                q += ([cur.left] if cur.left else [])
+                q += ([cur.right] if cur.right else [])
+
+        return True
